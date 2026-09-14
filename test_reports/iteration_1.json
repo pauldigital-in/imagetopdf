@@ -1,0 +1,40 @@
+{
+  "summary": "Frontend-only smoke test of Image-to-PDF Expo app on mobile web preview (390x844). Verified rendering, navigation, segmented-control selection + persistence, disabled-button states, and empty screens across Home (/), /settings, /settings-pdf, /selected, /result. All 7 screen-render / navigation / disabled-state assertions PASS. Camera pre-permission sheet cannot be validated on the web preview (expo-image-picker returns granted:true on web so the code path skips the sheet) — this is a native-only flow per the review note and is SKIPPED, not marked as a failure. No red-box errors, no fatal console errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": []
+  },
+  "verified_flows": [
+    "Home renders: title 'Image to PDF', tagline 'Convert Images to PDF', Select Images, Take Photo, Recent PDFs section, 'No PDFs yet' empty state with image, settings gear (top-right).",
+    "Settings gear navigates to /settings; groups 'DEFAULT PDF SETTINGS' (Page Size A4/Original, Orientation Portrait/Landscape/Auto, Image Quality Standard/High/Best) and 'ABOUT' (Privacy Policy row, Developer 'Paul Digital', Version '1.0.0') visible; header-back-button returns to Home.",
+    "Segmented options select correctly (Page Size 'Original' and Quality 'Best' get white-background chip visible in screenshot). Persistence verified: navigated to Home and back to Settings, 'Original' and 'Best' remained selected (persisted via AsyncStorage 'pdf_defaults_v1').",
+    "/settings-pdf renders page-size, orientation, quality chips, pdf-name-input pre-filled with 'IMG_to_PDF_20260914_090644' matching /^IMG_to_PDF_\\d+/, '.pdf' suffix visible, create-pdf-button DISABLED (aria-disabled=true, disabled=true) with 0 images.",
+    "/selected with no images shows 'No images selected' empty state and Go Back button; bottom bar shows 'Add More' and disabled 'Next' button (aria-disabled=true, disabled=true).",
+    "/result with no id shows 'PDF not found' and 'Return to Home' button (testID=result-home-button).",
+    "No red-box errors; only a benign non-fatal warning 'props.pointerEvents is deprecated. Use style.pointerEvents' in console (react-native-web internal, non-blocking)."
+  ],
+  "skipped_native_only": [
+    "Actual gallery / camera picker (native-only)",
+    "PDF generation (expo-file-system write is native)",
+    "Open/Share PDF (native intents/expo-sharing)",
+    "AdMob banner/interstitial (native build only; returns null on web by design)",
+    "Take Photo pre-permission sheet ('Use the camera?') — on web, ImagePicker.getCameraPermissionsAsync() returns granted:true so the sheet code path is bypassed; on native Android with un-granted permission the sheet WILL appear (code review confirms the logic is correct)."
+  ],
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "index.tsx onTakePhoto flow is correct for native Android: permission not granted -> setCamSheet('explain') opens AppSheet with Continue/Not now. Sheet is not testable on web preview because expo-image-picker's web shim returns granted:true immediately; this is expected and documented in the review note.",
+    "Segmented components (both /settings and /settings-pdf) do not forward accessibilityState.selected to a data-* attribute — aria-selected is null in the DOM. Visual selection state renders correctly (verified via screenshots). Non-blocking but a testID-friendly aria-selected mapping would make automated selection assertions easier.",
+    "No deprecated Expo packages (expo-av, expo-barcode-scanner, expo-background-fetch) present in the codebase. Uses expo-image, expo-image-picker, expo-file-system, expo-router — all current.",
+    "EXPO_PUBLIC_CONFIG_URL is empty as expected; app runs on DEFAULT_CONFIG safe defaults. fetchRemote() early-returns null when empty, so no network attempts on start."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend-only)", "frontend": "100% (7/7 testable assertions pass; 1 flow skipped as native-only per review note)"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Web-preview cannot exercise camera permission sheet, gallery picker, real PDF generation, or AdMob. All those must be validated on a native Android build. On the web the deprecation warning 'props.pointerEvents is deprecated' comes from react-native-web internals and is safe to ignore."
+}

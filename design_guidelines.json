@@ -1,0 +1,186 @@
+{
+  "app_name": "Image to PDF",
+  "personality": "1 iOS-Native Clean",
+  "personality_one_liner": "A trustworthy, hyper-functional utility that prioritizes speed and clarity through generous spacing and native-feeling typography.",
+  "color": {
+    "surface": "#F2F2F7",
+    "onSurface": "#1C1C1E",
+    "surfaceSecondary": "#FFFFFF",
+    "onSurfaceSecondary": "#1C1C1E",
+    "surfaceTertiary": "#E5E5EA",
+    "onSurfaceTertiary": "#3A3A3C",
+    "surfaceInverse": "#1C1C1E",
+    "onSurfaceInverse": "#F2F2F7",
+    "brand": "#4A7B59",
+    "brandPrimary": "#4A7B59",
+    "onBrandPrimary": "#FFFFFF",
+    "brandSecondary": "#609370",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#E8F0EA",
+    "onBrandTertiary": "#2E4F39",
+    "success": "#34C759",
+    "onSuccess": "#FFFFFF",
+    "warning": "#FF9F0A",
+    "onWarning": "#FFFFFF",
+    "error": "#FF3B30",
+    "onError": "#FFFFFF",
+    "info": "#8E8E93",
+    "onInfo": "#FFFFFF",
+    "border": "#E5E5EA",
+    "borderStrong": "#C7C7CC",
+    "divider": "#E5E5EA",
+    "muted": "#8E8E93"
+  },
+  "typography": {
+    "displayFontFamily": "Geist",
+    "textFontFamily": "Geist",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Use iOS-native rhythms. Generous vertical spacing (xl or 2xl) between major sections. Cards have at least md margin. No cramped elements.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": "1",
+  "navigation": "stack_only",
+  "icon_set": "Ionicons",
+  "glassmorphism": {
+    "enabled": "true",
+    "do's": [
+      "Use glass on sticky headers over scrolling lists.",
+      "Use glass on sticky bottom CTA bars (like 'Create PDF' or 'Next').",
+      "Use glass on bottom sheet handles/headers."
+    ],
+    "dont's": [
+      "Never apply glass to form fields or body text regions.",
+      "Avoid glass everywhere; keep it restricted to elevated interactive surfaces."
+    ]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-glass-effect",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Home",
+      "purpose": "Primary hub to start conversion and access recently created PDFs.",
+      "states": {
+        "loading": "Centered spinner on screen.",
+        "empty": "Empty state illustration using the clean desk image with a 'No PDFs yet' message and a prominent CTA.",
+        "error": "Generic error message with a 'Retry' button."
+      },
+      "layout": "Stack layout. Top: Large title 'Image to PDF' and a Settings gear icon. Upper section: Two large side-by-side or stacked primary buttons for 'Select Images' and 'Take Photo' (use brandTertiary tinted containers). Middle: 'Recent PDFs' section title and a list (surfaceSecondary rows with document icon, filename, date). Bottom: Reserved 50px safe-area container for the banner ad."
+    },
+    {
+      "name": "Selected Images",
+      "purpose": "Review, reorder (drag & drop), and manage selected images before proceeding.",
+      "states": {
+        "loading": "Skeleton grid.",
+        "empty": "Full screen message 'No images selected' with a 'Go Back' primary button.",
+        "error": "Failed to load images error with retry option."
+      },
+      "layout": "Grid layout (2 columns) with spacing 'sm' or 'md'. Each thumbnail image must have a small circular badge (brandPrimary) in the corner showing its order number, and a 'Delete/X' icon. Sticky bottom glass bar containing 'Add More' (secondary) and 'Next' (primary) buttons."
+    },
+    {
+      "name": "Image Editor",
+      "purpose": "Crop, rotate, and deskew an individual image.",
+      "states": {
+        "loading": "Spinner over dark background.",
+        "empty": "N/A",
+        "error": "Toast error 'Failed to load image for editing'."
+      },
+      "layout": "Use surfaceInverse (dark) background for maximum contrast. Image centered in screen with draggable crop corner handles. Bottom toolbar (surface or surfaceSecondary with high contrast icons) for Rotate Left, Rotate Right, Reset. Primary 'Done' button in top right header or bottom right."
+    },
+    {
+      "name": "PDF Settings",
+      "purpose": "Configure PDF output parameters.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "Validation error text below filename input if empty or invalid."
+      },
+      "layout": "Form layout. Single column. Use segmented controls for 'Page Size' (A4, Original) and 'Orientation' (Portrait, Landscape, Auto). Use a selection list or chips for 'Image Quality' (Standard, High, Best). Text input for 'Filename' with label above. Sticky bottom glass bar containing the large 'Create PDF' primary button."
+    },
+    {
+      "name": "PDF Generation Progress",
+      "purpose": "Show status while processing the PDF.",
+      "states": {
+        "loading": "Large animated progress indicator and percentage.",
+        "empty": "N/A",
+        "error": "Generation failed message with a 'Retry' button."
+      },
+      "layout": "Centered layout. Large circular progress or horizontal progress bar. 'Creating PDF...' text below it. Keep it simple and distraction-free."
+    },
+    {
+      "name": "PDF Result",
+      "purpose": "Confirm successful creation and provide immediate actions.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Centered success confirmation. Large success icon (success token color). Filename, file size, and page count displayed prominently. Below, large primary button for 'Open PDF' and 'Share PDF'. Text links or smaller secondary buttons for 'Rename' and 'Delete'. 'Return to Home' button at the bottom."
+    },
+    {
+      "name": "Settings",
+      "purpose": "Manage app defaults and view legal/about info.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Standard iOS-style grouped list. Section 1: Default PDF Settings (Page Size, Quality). Section 2: About (Version, Privacy Policy, Contact). Use surfaceSecondary for list rows with border or divider."
+    }
+  ],
+  "images": {
+    "empty_state_desk": {
+      "url": "https://images.unsplash.com/photo-1449247709967-d4461a6a6103?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMG1pbmltYWxpc3QlMjBlbXB0eSUyMHRyYXklMjBvciUyMGRlc2t8ZW58MHx8fHwxNzg5Mzc0NjQyfDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Clean minimalist white desk setup"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Strictly adhere to the '1 iOS-Native Clean' personality. Do not use heavy borders, aggressive colors, or excessive shadows. Keep padding generous.",
+    "BANNED COLORS: All shades of blue, purple, indigo, violet, pink, and magenta are strictly forbidden. Default to the provided near-black/gray tokens and the Moss Green brand colors.",
+    "Typography: Maximum font weight is 500 across all screens. Create hierarchy using font size (sm to 2xl) and color (onSurface vs muted), not weight.",
+    "Navigation: Keep it simple and stack-based. Do not add a bottom tab bar.",
+    "Home Screen: Ensure a 50px reserved area at the absolute bottom for a banner ad. No interactive elements should be covered by this area.",
+    "Selected Images Screen: Use a library like `react-native-draggable-flatlist` for smooth drag-and-drop reordering. Make sure each thumbnail clearly shows its order number.",
+    "Image Editor: Ensure the background is dark (`surfaceInverse`) for strong contrast when editing/cropping images.",
+    "Interactive states: Apply pressed opacity (0.97) scaling on buttons and cards. Ensure touch targets are at least 44x44pt.",
+    "Image usage: Use the provided 'empty_state_desk' image for the 'No PDFs yet' state on the Home screen. Apply a gradient scrim over it if text overlays it, to guarantee readability."
+  ],
+  "haptics": {
+    "events": {
+      "button_press": "light",
+      "drag_start": "medium",
+      "drag_release": "success",
+      "create_pdf_complete": "success",
+      "delete_image": "warning"
+    }
+  }
+}

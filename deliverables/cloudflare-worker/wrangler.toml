@@ -1,0 +1,26 @@
+name = "image-to-pdf-config"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# ---------------------------------------------------------------------------
+# KV namespace that stores the single "app_config" document.
+# Create it with:  npx wrangler kv namespace create CONFIG_KV
+# then paste the returned id below.
+# ---------------------------------------------------------------------------
+[[kv_namespaces]]
+binding = "CONFIG_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# Non-secret variables (safe to commit).
+[vars]
+# Lock the Admin API CORS to your Admin Panel origin in production, e.g.
+# ADMIN_ORIGIN = "https://image-to-pdf-admin.pages.dev"
+ADMIN_ORIGIN = "*"
+
+# ---------------------------------------------------------------------------
+# SECRETS — never commit these. Set them with `npx wrangler secret put NAME`:
+#   ADMIN_EMAIL            -> your admin login email
+#   ADMIN_PASSWORD_HASH    -> PBKDF2 hash (see scripts/hash-password.mjs)
+#   ADMIN_PASSWORD_SALT    -> salt used for the hash
+#   ADMIN_SESSION_SECRET   -> long random string used to sign session tokens
+# ---------------------------------------------------------------------------

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Image to PDF — Admin</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <!-- Login -->
+      <section id="login-view" class="card">
+        <h1>Image to PDF</h1>
+        <p class="sub">Admin Panel · Paul Digital</p>
+
+        <label>API Base URL</label>
+        <input id="api-base" type="url" placeholder="https://image-to-pdf-config.YOUR-SUBDOMAIN.workers.dev" />
+
+        <label>Email</label>
+        <input id="email" type="email" autocomplete="username" placeholder="you@example.com" />
+
+        <label>Password</label>
+        <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" />
+
+        <button id="login-btn" class="primary">Sign In</button>
+        <p id="login-msg" class="msg"></p>
+      </section>
+
+      <!-- Dashboard -->
+      <section id="dash-view" class="card hidden">
+        <div class="row-between">
+          <h1>Dashboard</h1>
+          <button id="logout-btn" class="ghost">Log out</button>
+        </div>
+
+        <h2>Ads</h2>
+        <div class="field-row">
+          <span>Ads Enabled</span>
+          <label class="switch">
+            <input id="adsEnabled" type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <label>Banner Ad Unit ID</label>
+        <input id="bannerAdUnitId" type="text" placeholder="ca-app-pub-XXXX/YYYY" />
+
+        <label>Interstitial Ad Unit ID</label>
+        <input id="interstitialAdUnitId" type="text" placeholder="ca-app-pub-XXXX/YYYY" />
+
+        <h2>App</h2>
+        <label>App Name</label>
+        <input id="appName" type="text" placeholder="Image to PDF" />
+
+        <label>Privacy Policy URL</label>
+        <input id="privacyPolicyUrl" type="url" placeholder="https://..." />
+
+        <h2>Basic Settings</h2>
+        <label>Default PDF Quality</label>
+        <select id="defaultQuality">
+          <option value="standard">Standard</option>
+          <option value="high">High</option>
+          <option value="best">Best</option>
+        </select>
+
+        <label>Default Page Size</label>
+        <select id="defaultPageSize">
+          <option value="a4">A4</option>
+          <option value="original">Original</option>
+        </select>
+
+        <label>Default Orientation</label>
+        <select id="defaultOrientation">
+          <option value="portrait">Portrait</option>
+          <option value="landscape">Landscape</option>
+          <option value="auto">Auto</option>
+        </select>
+
+        <label>Interstitial Cooldown (seconds)</label>
+        <input id="interstitialCooldownSec" type="number" min="0" max="3600" />
+
+        <label>Maximum Image Count</label>
+        <input id="maxImageCount" type="number" min="1" max="500" />
+
+        <p class="version">Config version: <span id="configVersion">–</span></p>
+
+        <button id="save-btn" class="primary">Save Changes</button>
+        <p id="dash-msg" class="msg"></p>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
