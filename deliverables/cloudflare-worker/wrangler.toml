@@ -1,4 +1,4 @@
-name = "image-to-pdf-config"
+name = "imagetopdf"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
 
@@ -9,7 +9,7 @@ compatibility_date = "2024-11-01"
 # ---------------------------------------------------------------------------
 [[kv_namespaces]]
 binding = "CONFIG_KV"
-id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+id = "70f108c99f0844238033f9dbe8b818bc"
 
 # Non-secret variables (safe to commit).
 [vars]
