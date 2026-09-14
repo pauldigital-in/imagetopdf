@@ -118,12 +118,19 @@ async function issueToken(email, secret) {
   return `${body}.${sig}`;
 }
 
+// A secret that is missing or too short is treated as "server not configured".
+// This fails CLOSED so tokens can never be signed/verified with a predictable key.
+function serverConfigured(env) {
+  return typeof env.ADMIN_SESSION_SECRET === "string" && env.ADMIN_SESSION_SECRET.length >= 16;
+}
+
 async function verifyToken(token, secret) {
+  if (!secret || secret.length < 16) return null; // fail closed if unset/weak
   if (!token || token.split(".").length !== 3) return null;
-  const [header, payload, sig] = token.split(".");
-  const expected = await hmacSign(secret, `${header}.${payload}`);
-  if (!timingSafeEqual(b64urlDecodeToBytes(sig), b64urlDecodeToBytes(expected))) return null;
   try {
+    const [header, payload, sig] = token.split(".");
+    const expected = await hmacSign(secret, `${header}.${payload}`);
+    if (!timingSafeEqual(b64urlDecodeToBytes(sig), b64urlDecodeToBytes(expected))) return null;
     const data = JSON.parse(new TextDecoder().decode(b64urlDecodeToBytes(payload)));
     if (!data.exp || data.exp < Math.floor(Date.now() / 1000)) return null;
     return data;
@@ -202,6 +209,10 @@ function validateConfig(input, current) {
 /* --------------------------------- routes -------------------------------- */
 
 async function handleLogin(request, env, cors) {
+  // Fail closed: never authenticate if the server is misconfigured.
+  if (!serverConfigured(env) || !env.ADMIN_EMAIL || !env.ADMIN_PASSWORD_HASH || !env.ADMIN_PASSWORD_SALT) {
+    return json({ error: "Server not configured" }, 503, cors);
+  }
   const ip = request.headers.get("CF-Connecting-IP") || "unknown";
   const attemptKey = `login_attempts:${ip}`;
   const attempts = parseInt((await env.CONFIG_KV.get(attemptKey)) || "0", 10);
