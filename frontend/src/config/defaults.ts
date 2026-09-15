@@ -29,7 +29,7 @@ export const DEFAULT_CONFIG: AppConfig = {
   bannerAdUnitId: "ca-app-pub-5048291410050597/6939420157",
   interstitialAdUnitId: "ca-app-pub-5048291410050597/1687093471",
   appName: "Image to PDF",
-  privacyPolicyUrl: "https://image-to-pdf.pages.dev/privacy",
+  privacyPolicyUrl: "https://imagetopdf-9n5.pages.dev/privacy",
   defaultQuality: "high",
   defaultPageSize: "a4",
   defaultOrientation: "auto",
