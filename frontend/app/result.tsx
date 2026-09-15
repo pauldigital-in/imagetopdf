@@ -91,7 +91,7 @@ export default function Result() {
 
       <View style={[styles.actions, { paddingBottom: insets.bottom + spacing.lg }]}>
         <Button
-          label="Open PDF"
+          label="Download PDF"
           icon="open-outline"
           onPress={async () => {
             const ok = await openPdf(record.uri);
