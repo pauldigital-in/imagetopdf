@@ -22,7 +22,10 @@
       },
       "package": "com.pauldigital.imagetopdf",
       "versionCode": 1,
-      "permissions": ["android.permission.CAMERA"]
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -64,6 +67,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "cd5bb0b1-05fe-4abf-b1f8-4845949850b1"
+      }
     }
   }
 }
